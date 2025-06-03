@@ -6,7 +6,8 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   cors: {
-    origin: ['https://space-ai-frontend.vercel.app/', 'http://localhost:3000',],
+    // origin: ['https://space-ai-frontend.vercel.app/', 'http://localhost:3000',],
+    origin:'*',
     credentials: true,
   },
   formatError: (error) => {
