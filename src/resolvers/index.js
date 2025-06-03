@@ -1,4 +1,5 @@
 const Event = require('../models/Event');
+const mongoose = require('mongoose');
 
 const resolvers = {
   Event: {
@@ -63,15 +64,18 @@ const resolvers = {
         throw new Error(`Failed to update event: ${error.message}`);
       }
     },
-    deleteEvent: async (_, { id }) => {
-      try {
-        const result = await Event.delete(id);
-        return result.deletedCount === 1;
-      } catch (error) {
-        console.error('deleteEvent error:', error);
-        throw new Error(`Failed to delete event: ${error.message}`);
-      }
-    },
+   deleteEvent: async (_, { id }) => {
+  try {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new Error('Invalid ID format');
+    }
+    const result = await Event.delete(id);
+    return result.deletedCount === 1;
+  } catch (error) {
+    console.error('deleteEvent error:', error);
+    throw new Error(`Failed to delete event: ${error.message}`);
+  }
+},
   },
 };
 
